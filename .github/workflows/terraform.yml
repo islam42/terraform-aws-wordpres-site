@@ -1,9 +1,6 @@
 name: "Terraform Actions"
 
-on:
-  push:
-    branches:
-      - development
+on: push
 
 env:
   TF_INPUT: true
