@@ -10,10 +10,10 @@ module "vpc" {
 
   azs = slice(data.aws_availability_zones.available.names, 0, var.vpc_subnet_count)
   # private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets = [for subnet in range(var.vpc_subnet_count) : cidrsubnet(var.vpc_cidr_block[terraform.workspace], var.vpc_subnet_mask, subnet)]
-  private_subnets = [ for subnet in range(var.vpc_subnet_count, (var.vpc_subnet_count * 2)) : cidrsubnet(var.vpc_cidr_block[terraform.workspace], var.vpc_subnet_mask, subnet) ]
-  enable_nat_gateway = false
-  enable_vpn_gateway = false
+  public_subnets          = [for subnet in range(var.vpc_subnet_count) : cidrsubnet(var.vpc_cidr_block[terraform.workspace], var.vpc_subnet_mask, subnet)]
+  private_subnets         = [for subnet in range(var.vpc_subnet_count, (var.vpc_subnet_count * 2)) : cidrsubnet(var.vpc_cidr_block[terraform.workspace], var.vpc_subnet_mask, subnet)]
+  enable_nat_gateway      = false
+  enable_vpn_gateway      = false
   map_public_ip_on_launch = true
 
   tags = merge(local.common_tags, {
