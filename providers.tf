@@ -7,12 +7,6 @@ terraform {
       version = "5.83.0"
     }
   }
-  cloud {
-    organization = "arcloudops"
-    workspaces {
-      name = "development"
-    }
-  }
 }
 
 provider "aws" {

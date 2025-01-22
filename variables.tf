@@ -29,19 +29,16 @@ variable "vpc_cidr_block" {
 variable "vpc_subnet_mask" {
   type        = number
   description = "CIDR subnet mask for Subnet"
-  default     = 8
 }
 
 variable "vpc_subnet_count" {
   type        = number
   description = "Number of subnets to create"
-  default     = 2
 }
 
 variable "aws_instance_type" {
   type        = string
   description = "Instance type for EC2"
-  default     = "t2.micro"
 }
 
 variable "enable_dns_hostnames" {
@@ -65,7 +62,7 @@ variable "project" {
 variable "company" {
   type        = string
   description = "Name of the company"
-  default     = "ARcloudops"
+  default     = "arcloudops"
 }
 
 variable "billing_code" {
