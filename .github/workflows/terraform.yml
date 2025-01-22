@@ -32,8 +32,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
             role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
-            role-session-name: ${{ vars.AWS_AUDIENCE }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            role-session-name: ${{ vars.SESSION_NAME }}
             aws-region: ${{ vars.AWS_REGION }}
       - name: Checkout
         uses: actions/checkout@v2
