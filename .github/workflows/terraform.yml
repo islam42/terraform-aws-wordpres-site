@@ -10,9 +10,17 @@ on:
     #         - development
 
 env:
-  TF_INPUT: true
-  TF_IN_AUTOMATION: true
-  TF_LOG: INFO
+    TF_INPUT: true
+    TF_IN_AUTOMATION: true
+    TF_LOG: INFO
+    TF_VAR_aws_instance_count: ${{ vars.AWS_INSTANCE_COUNT }}
+    TF_VAR_aws_instance_type: ${{ vars.AWS_INSTANCE_TYPE }}
+    TF_VAR_billing_code: ${{ vars.BILLING_CODE }}
+    TF_VAR_vpc_cidr_block: ${{ vars.VPC_CIDR_BLOCK }}
+    TF_VAR_vpc_subnet_count: ${{ vars.VPC_SUBNET_COUNT }}
+    TF_VAR_vpc_subnet_mask: ${{ vars.VPC_SUBNET_MASK }}
+    TF_VAR_project: ${{ vars.PROJECT }}
+
 
 permissions:
     id-token: write
