@@ -30,6 +30,7 @@ jobs:
   plan_and_apply:
     name: "Terraform"
     runs-on: ubuntu-latest
+    environment: development
 
     defaults:
       run:
@@ -55,14 +56,20 @@ jobs:
       - name: Terraform Format
         id: format
         run: terraform fmt -check
+    
+      - name: Terraform Workspace
+        id: workspace
+        run: terraform workspace new ${{ vars.WORKSPACE_NAME }} || terraform workspace select ${{ vars.WORKSPACE_NAME }}
 
       - name: Terraform Validate
         id: validate
         if: (success() || failure())
         run: terraform validate
+
       - name: Terraform Plan
         id: plan
         run: terraform plan
+    
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve
