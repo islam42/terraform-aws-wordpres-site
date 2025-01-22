@@ -56,7 +56,6 @@ jobs:
             -backend-config="bucket=${{ vars.BACKEND_BUCKET }}" \
             -backend-config="key=${{ vars.BACKEND_KEY }}" \
             -backend-config="region=${{ vars.AWS_REGION }}" \
-            -encrypt=true
       - name: Terraform Format
         id: format
         run: terraform fmt -check
