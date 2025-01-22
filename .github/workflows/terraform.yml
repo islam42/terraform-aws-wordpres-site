@@ -1,14 +1,25 @@
 name: "Terraform Actions"
 
-on: push
+on:
+    push:
+        branches:
+            - feature/add_plan_and_apply_to_github_actions
+    # pull_request_target:
+    #     types: [opened]
+    #     branches:
+    #         - development
 
 env:
   TF_INPUT: true
   TF_IN_AUTOMATION: true
   TF_LOG: INFO
 
+permissions:
+    id-token: write
+    contents: read
+
 jobs:
-  terraform:
+  plan_and_apply:
     name: "Terraform"
     runs-on: ubuntu-latest
 
@@ -17,6 +28,13 @@ jobs:
         shell: bash
 
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+            role-session-name: ${{ vars.AWS_AUDIENCE }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ vars.AWS_REGION }}
       - name: Checkout
         uses: actions/checkout@v2
 
