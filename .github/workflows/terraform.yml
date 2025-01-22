@@ -52,11 +52,11 @@ jobs:
       - name: Terraform Init
         id: init
         run: | 
-            terraform init -reconfigure
-            --backend-config="bucket=${{ vars.BACKEND_BUCKET }}"
-            --backend-config="key=${{ vars.BACKEND_KEY }}"
-            --backend-config="region=${{ vars.AWS_REGION }}"
-            --dynamodb-table=${{ vars.DYNAMODB_TABLE }}
+            terraform init -reconfigure \
+            --backend-config="bucket=${{ vars.BACKEND_BUCKET }}" \
+            --backend-config="key=${{ vars.BACKEND_KEY }}" \
+            --backend-config="region=${{ vars.AWS_REGION }}" \
+            --dynamodb-table=${{ vars.DYNAMODB_TABLE }} \
             --encrypt=true
 
       - name: Terraform Format
