@@ -56,6 +56,9 @@ jobs:
             -backend-config="bucket=${{ vars.BACKEND_BUCKET }}" \
             -backend-config="key=${{ vars.BACKEND_KEY }}" \
             -backend-config="region=${{ vars.AWS_REGION }}" \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=${{ vars.DYNAMODB_TABLE }}"
+
       - name: Terraform Format
         id: format
         run: terraform fmt -check
