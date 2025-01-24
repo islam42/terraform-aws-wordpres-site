@@ -30,7 +30,7 @@ jobs:
   plan_and_apply:
     name: "Terraform"
     runs-on: ubuntu-latest
-    environment: development
+    environment: staging
 
     defaults:
       run:
