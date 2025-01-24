@@ -1,14 +1,14 @@
-variable "aws_access_key" {
-  type        = string
-  description = "value of access key for AWS account"
-  sensitive   = true
-}
+# variable "aws_access_key" {
+#   type        = string
+#   description = "value of access key for AWS account"
+#   sensitive   = true
+# }
 
-variable "aws_secret_key" {
-  type        = string
-  description = "value of secret key for AWS account"
-  sensitive   = true
-}
+# variable "aws_secret_key" {
+#   type        = string
+#   description = "value of secret key for AWS account"
+#   sensitive   = true
+# }
 
 variable "region" {
   type        = string
