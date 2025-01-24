@@ -6,8 +6,8 @@ on:
             - feature/add_plan_and_apply_to_github_actions
     pull_request:
         types: [closed]
-        branches:
-            - feature/add_plan_and_apply_to_github_actions
+        # branches:
+        #     - feature/add_plan_and_apply_to_github_actions
     # pull_request_target:
     #     types: [opened]
     #     branches:
