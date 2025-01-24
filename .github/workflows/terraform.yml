@@ -1,22 +1,52 @@
 name: "Terraform Actions"
 
-on: push
+on:
+    push:
+        branches:
+            - feature/add_plan_and_apply_to_github_actions
+    pull_request:
+        types: [closed]
+        # branches:
+        #     - feature/add_plan_and_apply_to_github_actions
+    # pull_request_target:
+    #     types: [opened]
+    #     branches:
+    #         - development
 
 env:
-  TF_INPUT: true
-  TF_IN_AUTOMATION: true
-  TF_LOG: INFO
+    TF_INPUT: true
+    TF_IN_AUTOMATION: true
+    TF_LOG: INFO
+    TF_VAR_aws_instance_count: ${{ vars.AWS_INSTANCE_COUNT }}
+    TF_VAR_aws_instance_type: ${{ vars.AWS_INSTANCE_TYPE }}
+    TF_VAR_billing_code: ${{ vars.BILLING_CODE }}
+    TF_VAR_vpc_cidr_block: ${{ vars.VPC_CIDR_BLOCK }}
+    TF_VAR_vpc_subnet_count: ${{ vars.VPC_SUBNET_COUNT }}
+    TF_VAR_vpc_subnet_mask: ${{ vars.VPC_SUBNET_MASK }}
+    TF_VAR_project: ${{ vars.PROJECT }}
+
+
+permissions:
+    id-token: write
+    contents: read
 
 jobs:
-  terraform:
+  plan_and_apply:
     name: "Terraform"
     runs-on: ubuntu-latest
+    environment: staging
 
     defaults:
       run:
         shell: bash
 
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+            role-session-name: ${{ vars.SESSION_NAME }}
+            aws-region: ${{ vars.AWS_REGION }}
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -25,13 +55,32 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: | 
+            terraform init -reconfigure \
+            -backend-config="bucket=${{ vars.BACKEND_BUCKET }}" \
+            -backend-config="key=${{ vars.BACKEND_KEY }}" \
+            -backend-config="region=${{ vars.AWS_REGION }}" \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=${{ vars.DYNAMODB_TABLE }}"
 
       - name: Terraform Format
         id: format
         run: terraform fmt -check
+    
+      - name: Terraform Workspace
+        id: workspace
+        run: terraform workspace select ${{ vars.WORKSPACE_NAME }}
 
       - name: Terraform Validate
         id: validate
         if: (success() || failure())
         run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+    
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/feature/add_plan_and_apply_to_github_actions' && github.event_name == 'pull_request' && github.event.pull_request.merged == true
+        id: apply
+        run: terraform apply -auto-approve
