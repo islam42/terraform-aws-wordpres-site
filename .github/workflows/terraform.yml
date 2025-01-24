@@ -6,8 +6,8 @@ on:
             - feature/add_plan_and_apply_to_github_actions
     pull_request:
         types: [closed]
-        branches:
-            - feature/add_plan_and_apply_to_github_actions
+        # branches:
+        #     - feature/add_plan_and_apply_to_github_actions
     # pull_request_target:
     #     types: [opened]
     #     branches:
@@ -81,6 +81,6 @@ jobs:
         run: terraform plan
     
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/feature/add_plan_and_apply_to_github_actions' && github.event_name == 'pull_request' && github.event.pull_request.merged == true
+        if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
         id: apply
         run: terraform apply -auto-approve
