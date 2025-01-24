@@ -65,7 +65,7 @@ jobs:
     
       - name: Terraform Workspace
         id: workspace
-        run: terraform workspace new ${{ vars.WORKSPACE_NAME }} || terraform workspace select ${{ vars.WORKSPACE_NAME }}
+        run: terraform workspace select ${{ vars.WORKSPACE_NAME }}
 
       - name: Terraform Validate
         id: validate
